@@ -8,12 +8,12 @@ RUN pip install --upgrade pip \
     && useradd -m -u 1001 appuser \
     && chown -R appuser:appuser /app
 
-USER 1001
 WORKDIR /app
 COPY lancedb_mcp.py .
 COPY lancedb_mcp_utils.py .
 RUN chmod -R a+rX /app
 
+USER 1001
 EXPOSE 8080
 
 CMD ["python", "lancedb_mcp.py"]
