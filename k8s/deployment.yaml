@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lancedb-mcp-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lancedb-mcp-server
+  template:
+    metadata:
+      labels:
+        app: lancedb-mcp-server
+    spec:
+      containers:
+      - name: mcp-server
+        image: quay.io/oawofolurh/lancedb-mcp-server:latest:v1
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - secretRef:
+            name: mcp-server-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lancedb-mcp-server-service
+spec:
+  selector:
+    app: lancedb-mcp-server
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+  type: ClusterIP

@@ -12,7 +12,7 @@ It provides 1 tool:
 ### Build Docker image
 ```
 source .env
-podman login -u ${DOCKER_USERNAME}${DOCKER_USERNAME_SUFFIX} -p $ {DOCKER_PASSWORD} ${DOCKER_HOST}
+podman login -u ${DOCKER_USERNAME}${DOCKER_USERNAME_SUFFIX} -p ${DOCKER_PASSWORD} ${DOCKER_HOST}
 podman build -t ${DOCKER_HOST}/${DOCKER_USERNAME}/lancedb-mcp-server:latest .
 podman push ${DOCKER_HOST}/${DOCKER_USERNAME}/lancedb-mcp-server:latest
 ```
@@ -20,6 +20,6 @@ podman push ${DOCKER_HOST}/${DOCKER_USERNAME}/lancedb-mcp-server:latest
 Deploy to Openshift
 ```
 oc new-project mcpserver
-oc create secret generic mcp-server --from-env-file .env
-oc get secret mcp-server-oyaml > k8s/mcp-server-secret.yaml
+oc create secret generic mcp-server-secret --from-env-file .env
+oc get secret mcp-server-secret -oyaml > k8s/mcp-server-secret.yaml
 ```
