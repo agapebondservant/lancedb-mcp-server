@@ -20,6 +20,8 @@ spec:
         envFrom:
         - secretRef:
             name: mcp-server-secret
+      imagePullSecrets:
+        - name: quay-creds
 ---
 apiVersion: v1
 kind: Service

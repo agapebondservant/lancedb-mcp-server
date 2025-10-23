@@ -4,7 +4,7 @@ USER root
 COPY requirements.txt .
 RUN pip install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt \
-    && mkdir -p /app/ \
+    && mkdir -p /app/.cache \
     && useradd -m -u 1001 appuser \
     && chown -R appuser:appuser /app
 
