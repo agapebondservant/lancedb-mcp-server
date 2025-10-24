@@ -23,5 +23,6 @@ oc new-project mcpserver
 oc create secret generic mcp-server-secret --from-env-file .env
 oc get secret mcp-server-secret -oyaml > k8s/mcp-server-secret.yaml
 oc create secret docker-registry quay-creds --docker-server=quay.io --docker-username=${DOCKER_USERNAME}${DOCKER_USERNAME_SUFFIX} --docker-password=${DOCKER_PASSWORD} --docker-email=${DOCKER_EMAIL}
+oc adm policy add-scc-to-user anyuid -z default
 oc apply -f k8s/deployment.yaml
 ```

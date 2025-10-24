@@ -59,8 +59,7 @@ def run_query(query: str, top_k: int = 10):
 
 if __name__ == "__main__":
     mcp.run(
-        transport_type="http",
-        http={
-            "port": 8080,
-            "host": "0.0.0.0"
-    })
+        transport="http",
+        port=8080,
+        host="0.0.0.0",
+    )
