@@ -35,7 +35,8 @@ dbstore = LanceDB(
     connection=db,
 )
 
-mcp = FastMCP(SERVICE_NAME)
+mcp = FastMCP(SERVICE_NAME, host=os.getenv("MCP_HOST"), port=int(os.getenv(
+    "MCP_PORT")))
 
 @mcp.tool()
 def run_query(query: str, top_k: int = 10):
@@ -58,8 +59,4 @@ def run_query(query: str, top_k: int = 10):
     return results
 
 if __name__ == "__main__":
-    mcp.run(
-        transport="http",
-        port=8080,
-        host="0.0.0.0",
-    )
+    mcp.run(transport=os.getenv("MCP_TRANSPORT"))
