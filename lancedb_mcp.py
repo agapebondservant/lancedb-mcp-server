@@ -8,7 +8,8 @@ import lancedb_query_utils as query_utils
 
 SERVICE_NAME = os.environ.get("SERVICE_NAME", "lancedb")
 
-mcp_server = FastMCP(SERVICE_NAME)
+mcp_server = FastMCP(SERVICE_NAME, host=os.getenv("FASTMCP_HOST"), port=int(
+    os.getenv("FASTMCP_PORT")))
 
 @mcp_server.tool()
 def run_query(query: str):
