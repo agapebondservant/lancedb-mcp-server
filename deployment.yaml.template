@@ -192,9 +192,26 @@ spec:
         runAsUser: 1001
         runAsGroup: 1001
         fsGroup: 1001
+      initContainers:
+      - name: init-db
+        image: quay.io/oawofolurh/lancedb-mcp-server:v11
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - secretRef:
+            name: mcp-server-secret
+        env:
+          - name: INIT_DB
+            value: "true"
+        volumeMounts:
+          - name: data
+            mountPath: /data/lancedb
+          - name: config
+            mountPath: /etc/settings.yaml
+            subPath: settings.yaml
       containers:
       - name: mcp-server
-        image: quay.io/oawofolurh/lancedb-mcp-server:v10
+        image: quay.io/oawofolurh/lancedb-mcp-server:v11
         ports:
         - containerPort: 8080
         envFrom:
