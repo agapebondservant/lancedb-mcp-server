@@ -28,29 +28,32 @@ def run_query(query: str):
 
 if __name__ == "__main__":
 
-    print("Initializing LanceDB GraphRAG index...")
-    query_utils.initialize_index()
-
-    print(f"MCP Transport: {os.getenv('MCP_TRANSPORT')}")
-
-    if os.getenv("MCP_TRANSPORT")=="streamable-http":
-        mcp_server.run(transport=os.getenv("MCP_TRANSPORT"),
-                       host="0.0.0.0", port=8000, path="/mcp/")
+    if os.getenv("INIT_DB"):
+        print("Initializing LanceDB GraphRAG index...")
+        query_utils.initialize_index()
 
     else:
-        mcp_sse_server = mcp_server._mcp_server
 
-        import argparse
+        print(f"MCP Transport: {os.getenv('MCP_TRANSPORT')}")
 
-        parser = argparse.ArgumentParser(description='Run MCP SSE-based server')
-        parser.add_argument('--host', default='0.0.0.0', help='Host to bind to')
-        parser.add_argument('--port', type=int, default=8000,
-                            help='Port to listen on')
-        args = parser.parse_args()
+        if os.getenv("MCP_TRANSPORT")=="streamable-http":
+            mcp_server.run(transport=os.getenv("MCP_TRANSPORT"),
+                           host="0.0.0.0", port=8000, path="/mcp/")
 
-        print(f"Starting MCP Server on {args.host}:{args.port}")
-        print(f"SSE endpoint: http://{args.host}:{args.port}/sse")
+        else:
+            mcp_sse_server = mcp_server._mcp_server
 
-        starlette_app = utils.create_starlette_app(mcp_sse_server, debug=True)
+            import argparse
 
-        uvicorn.run(starlette_app, host=args.host, port=args.port)
+            parser = argparse.ArgumentParser(description='Run MCP SSE-based server')
+            parser.add_argument('--host', default='0.0.0.0', help='Host to bind to')
+            parser.add_argument('--port', type=int, default=8000,
+                                help='Port to listen on')
+            args = parser.parse_args()
+
+            print(f"Starting MCP Server on {args.host}:{args.port}")
+            print(f"SSE endpoint: http://{args.host}:{args.port}/sse")
+
+            starlette_app = utils.create_starlette_app(mcp_sse_server, debug=True)
+
+            uvicorn.run(starlette_app, host=args.host, port=args.port)
