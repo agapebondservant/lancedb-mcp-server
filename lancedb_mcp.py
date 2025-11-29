@@ -31,6 +31,8 @@ if __name__ == "__main__":
     print("Initializing LanceDB GraphRAG index...")
     query_utils.initialize_index()
 
+    print(f"MCP Transport: {os.getenv('MCP_TRANSPORT')}")
+
     if os.getenv("MCP_TRANSPORT")=="streamable-http":
         mcp_server.run(transport=os.getenv("MCP_TRANSPORT"),
                        host="0.0.0.0", port=8000, path="/mcp/")

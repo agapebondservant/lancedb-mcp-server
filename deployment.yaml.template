@@ -194,7 +194,7 @@ spec:
         fsGroup: 1001
       containers:
       - name: mcp-server
-        image: quay.io/oawofolurh/lancedb-mcp-server:v9
+        image: quay.io/oawofolurh/lancedb-mcp-server:v10
         ports:
         - containerPort: 8080
         envFrom:
