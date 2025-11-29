@@ -135,9 +135,7 @@ def query_index(prompt: str):
                                  "--method",
                                  "global",
                                  "--query",
-                                 prompt,
-                                 "--response-type",
-                                 "JSON format"],
+                                 prompt],
                                 capture_output=True, text=True, check=True)
 
         if result.stderr:
