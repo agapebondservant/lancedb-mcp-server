@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
     if os.getenv("MCP_TRANSPORT")=="streamable-http":
         mcp_server.run(transport=os.getenv("MCP_TRANSPORT"),
-                       host="0.0.0.0", port=8000)
+                       host="0.0.0.0", port=8000, path="/mcp/")
 
     else:
         mcp_sse_server = mcp_server._mcp_server
