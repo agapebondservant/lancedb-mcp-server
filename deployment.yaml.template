@@ -15,6 +15,7 @@ data:
         api_key: ${LLM_TOKEN}
         model: ${LLM_ID}
         model_provider: ${LLM_PROVIDER}
+        request_timeout: 300
         model_supports_json: true
         concurrent_requests: 25
         async_mode: threaded
@@ -34,6 +35,7 @@ data:
         model_supports_json: true # recommended if this is available for your model.
         concurrent_requests: 25 # max number of simultaneous LLM requests allowed
         async_mode: threaded # or asyncio
+        request_timeout: 300
         retry_strategy: native
         max_retries: 10
         tokens_per_minute: null              # set to null to disable rate limiting or auto for dynamic
