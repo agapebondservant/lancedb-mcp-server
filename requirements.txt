@@ -23,4 +23,4 @@ sdg-hub[examples]==0.3.1
 fastmcp>=2.0.0
 uvicorn
 starlette
-graphrag
+graphrag==2.6.0

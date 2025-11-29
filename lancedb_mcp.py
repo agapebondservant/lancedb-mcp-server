@@ -38,7 +38,7 @@ if __name__ == "__main__":
 
         if os.getenv("MCP_TRANSPORT")=="streamable-http":
 
-            print(f"Starting MCP Server on 0.0.0.0:8000/mcp...")
+            print(f"Starting MCP Server...")
 
             mcp_server.run(transport=os.getenv("MCP_TRANSPORT"))
 
