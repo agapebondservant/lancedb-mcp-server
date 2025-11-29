@@ -254,7 +254,7 @@ spec:
     kind: Service
     name: lancedb-mcp-server
   port:
-    targetPort: 8080
+    targetPort: 8000
   tls:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
