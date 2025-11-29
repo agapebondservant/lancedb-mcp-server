@@ -16,7 +16,7 @@ data:
         model: ${LLM_ID}
         model_provider: ${LLM_PROVIDER}
         request_timeout: 300
-        model_supports_json: true
+        model_supports_json: false
         concurrent_requests: 25
         async_mode: threaded
         retry_strategy: native
