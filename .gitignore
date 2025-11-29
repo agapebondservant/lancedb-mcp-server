@@ -10,3 +10,4 @@ wheels/
 .venv
 /.env
 k8s/mcp-server-secret.yaml
+k8s/deployment.yaml

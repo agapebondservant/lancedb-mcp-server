@@ -11,6 +11,7 @@ RUN pip install --upgrade pip \
 WORKDIR /app
 COPY lancedb_mcp.py .
 COPY lancedb_mcp_utils.py .
+COPY lancedb_query_utils.py .
 RUN chmod -R a+rX /app
 
 USER 1001
