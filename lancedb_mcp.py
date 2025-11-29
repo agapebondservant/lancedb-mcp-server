@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
             print(f"Starting MCP Server on 0.0.0.0:8000/mcp...")
 
-            mcp_server.run(transport=os.getenv("MCP_TRANSPORT"))
+            mcp_server.run(transport=os.getenv("MCP_TRANSPORT"), path="/mcp")
 
         else:
             mcp_sse_server = mcp_server._mcp_server
