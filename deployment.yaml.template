@@ -154,7 +154,6 @@ data:
 kind: ConfigMap
 metadata:
   name: lancedb-config
-  namespace: lancedb
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -195,7 +194,7 @@ spec:
         fsGroup: 1001
       containers:
       - name: mcp-server
-        image: quay.io/oawofolurh/lancedb-mcp-server:v6
+        image: quay.io/oawofolurh/lancedb-mcp-server:v7
         ports:
         - containerPort: 8080
         envFrom:
@@ -207,8 +206,15 @@ spec:
           - name: config
             mountPath: /etc/settings.yaml
             subPath: settings.yaml
+        resources:
+          limits:
+            nvidia.com/gpu: 1
       imagePullSecrets:
         - name: quay-creds
+      tolerations:
+        - effect: NoSchedule
+          key: nvidia.com/gpu
+          value: 'True'
 ---
 apiVersion: v1
 kind: Service

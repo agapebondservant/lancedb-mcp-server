@@ -32,7 +32,8 @@ if __name__ == "__main__":
     query_utils.initialize_index()
 
     if os.getenv("MCP_TRANSPORT")=="streamable-http":
-        mcp_server.run(transport=os.getenv("MCP_TRANSPORT"))
+        mcp_server.run(transport=os.getenv("MCP_TRANSPORT"),
+                       host="0.0.0.0", port=8000)
 
     else:
         mcp_sse_server = mcp_server._mcp_server
