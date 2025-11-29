@@ -119,11 +119,11 @@ def initialize_index():
                 data_to_copy.to_parquet(
                     f"{target_dir}/output/{table_name}.parquet")
 
-        print("DB index download complete.")
+        print("DB index initialization complete.")
 
-    except S3Error as e:
+    except Exception as e:
 
-        print(f"An error occurred while downloading GraphRAG index: {e}")
+        print(f"An error occurred while initializing GraphRAG index: {e}")
 
         traceback.print_exc()
 

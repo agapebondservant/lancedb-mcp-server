@@ -194,7 +194,7 @@ spec:
         fsGroup: 1001
       initContainers:
       - name: init-db
-        image: quay.io/oawofolurh/lancedb-mcp-server:v11
+        image: quay.io/oawofolurh/lancedb-mcp-server:v12
         envFrom:
         - secretRef:
             name: mcp-server-secret
@@ -209,9 +209,9 @@ spec:
             subPath: settings.yaml
       containers:
       - name: mcp-server
-        image: quay.io/oawofolurh/lancedb-mcp-server:v11
+        image: quay.io/oawofolurh/lancedb-mcp-server:v12
         ports:
-        - containerPort: 8080
+        - containerPort: 8000
         envFrom:
         - secretRef:
             name: mcp-server-secret
@@ -240,9 +240,9 @@ spec:
     app: lancedb-mcp-server
   ports:
   - protocol: TCP
-    containerPort: 8080
-    targetPort: 8080
-    port: 8080
+    containerPort: 8000
+    targetPort: 8000
+    port: 8000
   type: ClusterIP
 ---
 apiVersion: route.openshift.io/v1
