@@ -195,8 +195,6 @@ spec:
       initContainers:
       - name: init-db
         image: quay.io/oawofolurh/lancedb-mcp-server:v11
-        ports:
-        - containerPort: 8080
         envFrom:
         - secretRef:
             name: mcp-server-secret
