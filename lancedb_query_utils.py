@@ -128,7 +128,7 @@ def initialize_index():
 
 def query_index(prompt: str):
     try:
-        num_tries = 60
+        num_tries = 0
 
         process = subprocess.Popen(["graphrag",
                                  "query",
@@ -146,7 +146,7 @@ def query_index(prompt: str):
 
         output = ""
 
-        while num_tries > 0:
+        while num_tries < 60:
 
             return_code = process.poll()
 
@@ -162,9 +162,11 @@ def query_index(prompt: str):
 
             time.sleep(5)
 
-            num_tries -= 1
+            num_tries += 1
 
-        return output
+            yield num_tries
+
+        yield output
 
     except Exception as e:
 

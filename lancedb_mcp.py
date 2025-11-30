@@ -1,5 +1,5 @@
 import os
-from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP, Context
 from mcp.server.sse import SseServerTransport
 from mcp.server import Server
 import uvicorn
@@ -12,7 +12,7 @@ mcp_server = FastMCP(SERVICE_NAME, host=os.getenv("FASTMCP_HOST"), port=int(
     os.getenv("FASTMCP_PORT")))
 
 @mcp_server.tool()
-def run_query(query: str):
+async def run_query(query: str, ctx: Context):
     """
     Queries the LanceDB GraphRAG index using the provided prompt.
 
@@ -24,7 +24,19 @@ def run_query(query: str):
 
         str: Results containing a JSON-formatted list of prompt results.
     """
-    return query_utils.query_index(query)
+    for result in query_utils.query_index(query):
+
+        if result and result.strip().isalpha():
+
+            await ctx.report_progress(progress=1_000, total=1_000,
+                                      message="Processing complete!")
+
+            return result
+
+        else:
+
+            await ctx.report_progress(progress=int(result), total=1_000,
+                                      message=f"Processing items...#{result}")
 
 if __name__ == "__main__":
 
