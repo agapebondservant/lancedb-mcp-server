@@ -15,7 +15,7 @@ from minio import Minio
 
 from minio.error import S3Error
 
-import asyncio
+import time
 
 def dowwnload_index(target_dir: str):
     """
@@ -126,9 +126,11 @@ def initialize_index():
         traceback.print_exc()
 
 
-async def query_index(prompt: str):
+def query_index(prompt: str):
     try:
-        result = await asyncio.create_subprocess_exec("graphrag",
+        num_tries = 60
+
+        process = subprocess.Popen(["graphrag",
                                  "query",
                                  "--root",
                                  os.getenv("LANCEDB_DOWNLOAD_DIR"),
@@ -139,20 +141,28 @@ async def query_index(prompt: str):
                                  "--query",
                                  prompt,
                                  "--response-type",
-                                 "JSON format",
-                                 stdout=asyncio.subprocess.PIPE,
-                                 stderr=asyncio.subprocess.PIPE)
+                                 "JSON format"],
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-        stdout, stderr = await result.communicate()
+        output = ""
 
-        output = stdout.decode().strip()
+        while num_tries > 0:
 
-        if result.returncode != 0:
+            return_code = process.poll()
 
-            print(f"GraphRAG command failed with exit code"
-                  f" {result.returncode}:")
+            if return_code is not None:
 
-            print(stderr.decode().strip())
+                stdout, stderr = process.communicate()
+
+                output = stdout.decode()
+
+                print("Errors encountered during query:\n", stderr.decode())
+
+                break
+
+            time.sleep(5)
+
+            num_tries -= 1
 
         return output
 
