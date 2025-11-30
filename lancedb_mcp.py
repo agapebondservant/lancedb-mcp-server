@@ -24,19 +24,21 @@ async def run_query(query: str, ctx: Context):
 
         str: Results containing a JSON-formatted list of prompt results.
     """
+    output = ""
     for result in query_utils.query_index(query):
 
-        if result and str(result).isalpha():
+        if output or not str(result).isnumeric():
 
-            await ctx.report_progress(progress=1_000, total=1_000,
-                                      message="Processing complete!")
-
-            return result
+            output += result
 
         else:
 
             await ctx.report_progress(progress=int(result), total=1_000,
                                       message=f"Processing items...#{result}")
+
+    await ctx.report_progress(progress=1_000, total=1_000,
+                              message="Processing complete!")
+    return output
 
 if __name__ == "__main__":
 
