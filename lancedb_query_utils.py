@@ -15,6 +15,8 @@ from minio import Minio
 
 from minio.error import S3Error
 
+import asyncio
+
 def dowwnload_index(target_dir: str):
     """
     Downloads the GraphRAG index from MinIO to a local directory.
@@ -124,9 +126,9 @@ def initialize_index():
         traceback.print_exc()
 
 
-def query_index(prompt: str):
+async def query_index(prompt: str):
     try:
-        result = subprocess.run(["graphrag",
+        result = await asyncio.create_subprocess_exec("graphrag",
                                  "query",
                                  "--root",
                                  os.getenv("LANCEDB_DOWNLOAD_DIR"),
@@ -137,14 +139,20 @@ def query_index(prompt: str):
                                  "--query",
                                  prompt,
                                  "--response-type",
-                                 "JSON format"],
-                                capture_output=True, text=True, check=False)
+                                 "JSON format",
+                                 stdout=asyncio.subprocess.PIPE,
+                                 stderr=asyncio.subprocess.PIPE)
 
-        if result.stderr:
-            raise Exception(
-                f"Error processing GraphRAG command: {result.stderr}")
+        stdout, stderr = await result.communicate()
 
-        output = result.stdout
+        output = stdout.decode().strip()
+
+        if result.returncode != 0:
+
+            print(f"GraphRAG command failed with exit code"
+                  f" {result.returncode}:")
+
+            print(stderr.decode().strip())
 
         return output
 
