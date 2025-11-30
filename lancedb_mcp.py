@@ -26,7 +26,7 @@ async def run_query(query: str, ctx: Context):
     """
     for result in query_utils.query_index(query):
 
-        if result and result.strip().isalpha():
+        if result and str(result).isalpha():
 
             await ctx.report_progress(progress=1_000, total=1_000,
                                       message="Processing complete!")
